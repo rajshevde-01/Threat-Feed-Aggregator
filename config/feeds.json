@@ -1,0 +1,86 @@
+[
+  {
+    "name": "abusech-feodo-ip-blocklist",
+    "url": "https://feodotracker.abuse.ch/downloads/ipblocklist.txt",
+    "format": "txt",
+    "severity": "high",
+    "enabled": true
+  },
+  {
+    "name": "emergingthreats-compromised-ips",
+    "url": "https://rules.emergingthreats.net/blockrules/compromised-ips.txt",
+    "format": "txt",
+    "severity": "high",
+    "enabled": true
+  },
+  {
+    "name": "openphish-urls",
+    "url": "https://openphish.com/feed.txt",
+    "format": "txt",
+    "severity": "high",
+    "enabled": true
+  },
+  {
+    "name": "firehol-level1-netset",
+    "url": "https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset",
+    "format": "txt",
+    "severity": "medium",
+    "enabled": true
+  },
+  {
+    "name": "urlhaus-urls",
+    "url": "https://urlhaus.abuse.ch/downloads/text/",
+    "format": "txt",
+    "severity": "high",
+    "enabled": true
+  },
+  {
+    "name": "blocklistde-ips",
+    "url": "https://lists.blocklist.de/lists/all.txt",
+    "format": "txt",
+    "severity": "medium",
+    "enabled": true
+  },
+  {
+    "name": "threatfox-json",
+    "url": "https://threatfox-api.abuse.ch/files/exports/full.json?auth-key=REPLACE_WITH_AUTH_KEY",
+    "format": "json",
+    "severity": "high",
+    "enabled": false
+  },
+  {
+    "name": "phishtank-csv",
+    "url": "https://data.phishtank.com/data/online-valid.csv",
+    "format": "csv",
+    "severity": "high",
+    "enabled": true
+  },
+  {
+    "name": "spamhaus-drop",
+    "url": "https://www.spamhaus.org/drop/drop.txt",
+    "format": "txt",
+    "severity": "high",
+    "enabled": true
+  },
+  {
+    "name": "spamhaus-edrop",
+    "url": "https://www.spamhaus.org/drop/edrop.txt",
+    "format": "txt",
+    "severity": "high",
+    "enabled": true
+  },
+  {
+    "name": "cins-army-badguys",
+    "url": "https://cinsscore.com/list/ci-badguys.txt",
+    "format": "txt",
+    "severity": "medium",
+    "enabled": true
+  },
+  {
+    "name": "abusech-sslbl-ip-blacklist",
+    "url": "https://sslbl.abuse.ch/blacklist/sslipblacklist.txt",
+    "format": "txt",
+    "severity": "medium",
+    "enabled": true
+  }
+]

@@ -1,0 +1,25 @@
+services:
+  fetch:
+    build: .
+    image: threat-feed-aggregator
+    command: ["run_cli.py", "fetch", "--feeds", "config/feeds.json", "--db", "data/iocs.db", "--export-json", "data/iocs.json"]
+    volumes:
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./logs:/app/logs
+  schedule:
+    build: .
+    image: threat-feed-aggregator
+    command: ["run_cli.py", "schedule", "--feeds", "config/feeds.json", "--db", "data/iocs.db", "--interval", "3600"]
+    volumes:
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./logs:/app/logs
+  dashboard:
+    build: .
+    image: threat-feed-aggregator
+    command: ["run_app.py", "--db", "data/iocs.db", "--host", "0.0.0.0", "--port", "5000"]
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data

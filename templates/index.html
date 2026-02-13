@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Threat Feed Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/theme.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header reveal">
+        <div>
+          <div class="eyebrow glow">Threat Feed Aggregator</div>
+          <h1>Unified IOC Dashboard</h1>
+          <p>Filter by type, source, and severity, or search for a value.</p>
+        </div>
+        <div class="header-controls">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <span class="theme-icon">☀️</span>
+          </button>
+          <div class="header-panel">
+            <div class="signal-card">
+              <div class="signal-label">Database</div>
+              <div class="signal-value">SQLite</div>
+            </div>
+            <div class="signal-card">
+              <div class="signal-label">Pipeline</div>
+              <div class="signal-value">Fetch + Normalize</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="stats reveal">
+        <div class="stat-card">
+          <div class="stat-label">Total IOCs</div>
+          <div class="stat-value">{{ stats.total_iocs }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Source Records</div>
+          <div class="stat-value">{{ stats.total_records }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Feed Sources</div>
+          <div class="stat-value">{{ stats.total_sources }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Last Updated</div>
+          <div class="stat-value">{{ stats.last_updated or "-" }}</div>
+        </div>
+      </section>
+
+      <section class="stats reveal">
+        <div class="stat-wide">
+          <div class="stat-label">Type Breakdown</div>
+          <div class="pill-row">
+            {% for t, count in stats.by_type.items() %}
+            <span class="pill">{{ t }}: {{ count }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <section class="filters reveal">
+        <form method="get" class="filter-form">
+          <input type="hidden" name="page" value="1" />
+          <div class="filter-group">
+            <label for="query-input" class="filter-label">Search Value</label>
+            <input
+              id="query-input"
+              class="input"
+              type="text"
+              name="query"
+              placeholder="Enter search term"
+              value="{{ query }}"
+            />
+            <div class="search-hints">
+              <small>
+                <span id="search-hint" class="hint-text"></span>
+              </small>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label for="search-mode" class="filter-label">Search Mode</label>
+            <select id="search-mode" class="input" name="search_mode" onchange="updateSearchHint()">
+              <option value="simple" {% if search_mode == 'simple' %}selected{% endif %}>Simple (substring)</option>
+              <option value="regex" {% if search_mode == 'regex' %}selected{% endif %}>Regex Pattern</option>
+              <option value="cidr" {% if search_mode == 'cidr' %}selected{% endif %}>CIDR Range</option>
+            </select>
+          </div>
+
+          <select class="input" name="type">
+            <option value="">All types</option>
+            {% for t in types %}
+            <option value="{{ t }}" {% if selected_type == t %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          </select>
+          <select class="input" name="source">
+            <option value="">All sources</option>
+            {% for s in sources %}
+            <option value="{{ s }}" {% if selected_source == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+          <select class="input" name="severity">
+            <option value="">All severities</option>
+            {% for sev in severities %}
+            <option value="{{ sev }}" {% if selected_severity == sev %}selected{% endif %}>{{ sev }}</option>
+            {% endfor %}
+          </select>
+
+          <div class="filter-group">
+            <label for="date-from" class="filter-label">From Date</label>
+            <input
+              id="date-from"
+              class="input"
+              type="date"
+              name="date_from"
+              value="{{ date_from }}"
+            />
+          </div>
+
+          <div class="filter-group">
+            <label for="date-to" class="filter-label">To Date</label>
+            <input
+              id="date-to"
+              class="input"
+              type="date"
+              name="date_to"
+              value="{{ date_to }}"
+            />
+          </div>
+
+          <select class="input" name="page_size">
+            <option value="50" {% if page_size == 50 %}selected{% endif %}>50 rows</option>
+            <option value="200" {% if page_size == 200 %}selected{% endif %}>200 rows</option>
+            <option value="500" {% if page_size == 500 %}selected{% endif %}>500 rows</option>
+            <option value="1000" {% if page_size == 1000 %}selected{% endif %}>1000 rows</option>
+          </select>
+
+          <button class="button" type="submit">Apply filters</button>
+          <button class="button button-secondary" type="button" onclick="clearAllFilters()">Clear all</button>
+        </form>
+      </section>
+      </section>
+
+      <section class="table reveal">
+        <div class="table-head">
+          <div>Type</div>
+          <div>Value</div>
+          <div>Source</div>
+          <div>Severity</div>
+          <div>Date added</div>
+        </div>
+        <div class="table-body">
+          <div class="results">{{ total_results }} results</div>
+          {% for ioc in iocs %}
+          <div class="row">
+            <div>{{ ioc.type }}</div>
+            <div class="value">{{ ioc.value }}</div>
+            <div>{{ ioc.source }}</div>
+            <div>{{ ioc.severity }}</div>
+            <div>{{ ioc.date_added }}</div>
+          </div>
+          {% else %}
+          <div class="empty">No results found.</div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="pagination reveal">
+        <div class="page-info">Page {{ page }} of {{ page_count }}</div>
+        <div class="page-actions">
+          {% if page > 1 %}
+          <a
+            class="page-link"
+            href="/?query={{ query | urlencode }}&type={{ selected_type | urlencode }}&source={{ selected_source | urlencode }}&severity={{ selected_severity | urlencode }}&search_mode={{ search_mode }}&date_from={{ date_from }}&date_to={{ date_to }}&page={{ page - 1 }}&page_size={{ page_size }}"
+          >Previous</a>
+          {% else %}
+          <span class="page-link disabled">Previous</span>
+          {% endif %}
+          {% if page < page_count %}
+          <a
+            class="page-link"
+            href="/?query={{ query | urlencode }}&type={{ selected_type | urlencode }}&source={{ selected_source | urlencode }}&severity={{ selected_severity | urlencode }}&search_mode={{ search_mode }}&date_from={{ date_from }}&date_to={{ date_to }}&page={{ page + 1 }}&page_size={{ page_size }}"
+          >Next</a>
+          {% else %}
+          <span class="page-link disabled">Next</span>
+          {% endif %}
+        </div>
+      </section>
+    </div>
+
+    <script>
+      function updateSearchHint() {
+        const mode = document.getElementById('search-mode').value;
+        const hint = document.getElementById('search-hint');
+        const hints = {
+          simple: '💡 Substring search (e.g., "192.168" finds "192.168.1.1")',
+          regex: '🔍 Regex pattern (e.g., "^192\\.168\\." or "malware.*variant")',
+          cidr: '🌐 CIDR range (e.g., "192.168.0.0/16" or "10.0.0.0/8")'
+        };
+        hint.textContent = hints[mode] || '';
+      }
+
+      function clearAllFilters() {
+        document.querySelector('#query-input').value = '';
+        document.querySelector('select[name="type"]').value = '';
+        document.querySelector('select[name="source"]').value = '';
+        document.querySelector('select[name="severity"]').value = '';
+        document.querySelector('select[name="search_mode"]').value = 'simple';
+        document.querySelector('input[name="date_from"]').value = '';
+        document.querySelector('input[name="date_to"]').value = '';
+        document.querySelector('select[name="page_size"]').value = '200';
+        updateSearchHint();
+        window.location = '/';
+      }
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        updateSearchHint();
+      });
+    </script>
+  </body>
+</html>

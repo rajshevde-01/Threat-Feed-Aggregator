@@ -1,0 +1,25 @@
+2026-02-13 21:24:54,420 INFO starting fetch feeds=8
+2026-02-13 21:24:54,684 INFO feed=abusech-feodo-ip-blocklist items=3 iocs=3
+2026-02-13 21:24:55,912 INFO feed=emergingthreats-compromised-ips items=443 iocs=443
+2026-02-13 21:24:56,952 INFO feed=openphish-urls items=300 iocs=300
+2026-02-13 21:24:57,474 INFO feed=firehol-level1-netset items=4500 iocs=4500
+2026-02-13 21:24:58,548 INFO feed=urlhaus-urls items=77689 iocs=77689
+2026-02-13 21:24:58,966 INFO feed=blocklistde-ips items=25978 iocs=25978
+2026-02-13 21:24:59,236 WARNING fetch failed name=threatfox-json error=404 Client Error: Not Found for url: https://threatfox.abuse.ch/export/json/
+2026-02-13 21:25:01,550 INFO feed=phishtank-csv items=55528 iocs=55528
+2026-02-13 21:25:05,941 INFO exported json path=data/iocs.json
+2026-02-13 21:25:05,942 INFO run summary total=164441 inserted=159187
+2026-02-13 21:37:21,523 INFO starting fetch feeds=11
+2026-02-13 21:37:21,825 INFO feed=abusech-feodo-ip-blocklist items=3 iocs=3
+2026-02-13 21:37:23,032 INFO feed=emergingthreats-compromised-ips items=443 iocs=443
+2026-02-13 21:37:24,090 INFO feed=openphish-urls items=300 iocs=300
+2026-02-13 21:37:24,603 INFO feed=firehol-level1-netset items=4500 iocs=4500
+2026-02-13 21:37:25,743 INFO feed=urlhaus-urls items=77688 iocs=77688
+2026-02-13 21:37:26,160 INFO feed=blocklistde-ips items=25818 iocs=25818
+2026-02-13 21:37:30,522 INFO feed=phishtank-csv items=55528 iocs=55528
+2026-02-13 21:37:30,835 INFO feed=spamhaus-drop items=1491 iocs=1
+2026-02-13 21:37:31,108 INFO feed=spamhaus-edrop items=6 iocs=2
+2026-02-13 21:37:33,282 INFO feed=cins-army-badguys items=15000 iocs=15000
+2026-02-13 21:37:33,700 INFO feed=abusech-sslbl-ip-blacklist items=0 iocs=0
+2026-02-13 21:37:36,794 INFO exported json path=data/iocs.json
+2026-02-13 21:37:36,794 INFO run summary total=179283 inserted=15078
