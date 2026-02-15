@@ -1,18 +1,8 @@
-# Configuration: Add Your Own API Keys
 
-Some configuration files (such as `config/feeds.json`) may require API keys or credentials for certain threat feeds. These are not included in the repository.
-
-**You must add your own API keys or credentials where required.**
-
-For example, in `config/feeds.json`, replace any placeholder like `REPLACE_WITH_AUTH_KEY` with your actual key. Never commit your real keys or secrets to the repository.
-
-**Best Practice:**
-- Do not share or upload secret keys, API credentials, or sensitive data to public repositories.
-- Use environment variables or configuration files excluded by `.gitignore` for sensitive information whenever possible.
-# Important Security Notice
+# Threat Feed Aggregator & Normalizer
+Centralize threat intelligence from 11+ public feeds, normalize into a unified database, and search/analyze with a web dashboard and REST API.
 
 ## iocs.json Not Included
-
 The `data/iocs.json` file has been removed from this repository because it contained sensitive information and secrets. **Do not commit any secret keys or credentials to this repository.**
 
 To use this project, you must provide your own `iocs.json` file in the `data/` directory. Make sure your file does not contain any sensitive keys or credentials before committing or pushing to GitHub.
@@ -20,9 +10,6 @@ To use this project, you must provide your own `iocs.json` file in the `data/` d
 **Never share or upload secret keys, API credentials, or sensitive data to public repositories.**
 
 If you need a template, create an empty `iocs.json` or use your own threat feed export.
-# Threat Feed Aggregator & Normalizer
-
-Centralize threat intelligence from 11+ public feeds, normalize into a unified database, and search/analyze with a web dashboard and REST API.
 
 ## Project Structure
 
