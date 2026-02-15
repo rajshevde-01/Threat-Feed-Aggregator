@@ -1,3 +1,14 @@
+# Important Security Notice
+
+## iocs.json Not Included
+
+The `data/iocs.json` file has been removed from this repository because it contained sensitive information and secrets. **Do not commit any secret keys or credentials to this repository.**
+
+To use this project, you must provide your own `iocs.json` file in the `data/` directory. Make sure your file does not contain any sensitive keys or credentials before committing or pushing to GitHub.
+
+**Never share or upload secret keys, API credentials, or sensitive data to public repositories.**
+
+If you need a template, create an empty `iocs.json` or use your own threat feed export.
 # Threat Feed Aggregator & Normalizer
 
 Centralize threat intelligence from 11+ public feeds, normalize into a unified database, and search/analyze with a web dashboard and REST API.
