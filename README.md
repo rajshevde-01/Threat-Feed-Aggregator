@@ -1,3 +1,14 @@
+# Configuration: Add Your Own API Keys
+
+Some configuration files (such as `config/feeds.json`) may require API keys or credentials for certain threat feeds. These are not included in the repository.
+
+**You must add your own API keys or credentials where required.**
+
+For example, in `config/feeds.json`, replace any placeholder like `REPLACE_WITH_AUTH_KEY` with your actual key. Never commit your real keys or secrets to the repository.
+
+**Best Practice:**
+- Do not share or upload secret keys, API credentials, or sensitive data to public repositories.
+- Use environment variables or configuration files excluded by `.gitignore` for sensitive information whenever possible.
 # Important Security Notice
 
 ## iocs.json Not Included
