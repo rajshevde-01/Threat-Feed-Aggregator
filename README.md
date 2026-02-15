@@ -2,6 +2,8 @@
 # Threat Feed Aggregator & Normalizer
 Centralize threat intelligence from 11+ public feeds, normalize into a unified database, and search/analyze with a web dashboard and REST API.
 
+## DISCLAIMER
+
 ## iocs.json Not Included
 The `data/iocs.json` file has been removed from this repository because it contained sensitive information and secrets. **Do not commit any secret keys or credentials to this repository.**
 
